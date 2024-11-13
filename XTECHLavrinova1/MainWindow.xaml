@@ -18,12 +18,10 @@
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
 
-        <DataGrid x:Name="dtWiFi" Grid.Row="1" Grid.ColumnSpan="3" Margin="10" AutoGenerateColumns="True" CanUserAddRows="False"
-                  SelectionChanged="dtWiFi_SelectionChanged" AutoGeneratingColumn="dtWiFi_AutoGeneratingColumn"/>
+        <DataGrid x:Name="dtWiFi" Grid.Row="1" Grid.ColumnSpan="3" Margin="10" AutoGenerateColumns="True" CanUserAddRows="False"/>
 
         <Label Margin="10" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" IsEnabled="False" >Сеть с наилучшим сигналом:</Label>
-        <Label Margin="10" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" IsEnabled="False" Grid.Column="1">пример</Label>
-
+        <Label x:Name="lbBestSSID" Margin="10" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" IsEnabled="False" Grid.Column="1">пример</Label>
 
         <Button x:Name="btnScan" Click="btnScan_Click" Grid.Column="2" Grid.Row="2" Margin="10">Сканировать</Button>
         <Button x:Name="btnSave" Click="btnSave_Click" Grid.Column="1" Grid.Row="2" Margin="10">Сохранить</Button>
