@@ -37,11 +37,7 @@ namespace XTECHLavrinova1
             using (var connection = new SqlConnection(connectionString))
             {
                 connection.Open();
-                var query = @" select
-	                        [Name_SSID] as 'Имя сети',
-	                        [Wifi_Status] as 'Уровень сигнала сети',
-	                        [Date_Add] as 'Дата сохранения сети'
-                        from Wifi_SSID";
+                var query = @" select * from Wifi_SSID";
 
                 using (var command = new SqlCommand(query, connection))
                 {
@@ -52,16 +48,65 @@ namespace XTECHLavrinova1
             }
         }
 
+        private void ExecuteNonQuery(string query, Action<SqlCommand> addParameters)
+        {
+            using (var connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                using (var command = new SqlCommand(query, connection))
+                {
+                    addParameters(command);
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+
         private void btnScan_Click(object sender, RoutedEventArgs e)
         {
-            List<WifiSSID_Model> networks = wifiScanner.GetAvailableWifiSSID_Models();
-            dtWiFi.ItemsSource = networks;
+            try
+            {
+                networks = wifiScanner.GetAvailableWifiSSID_Models();
+                dtWiFi.ItemsSource = networks;
+                lbBestSSID.Content = networks.OrderByDescending(n => n.Wifi_Status).FirstOrDefault().Name_SSID;
+            } catch (Exception ex) {
+                MessageBox.Show(ex.Message.ToString(), "Сканирование сетей");
+            }
         }
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
+            if (networks.Count != 0)
+            {
+                var query = @"
+                        INSERT INTO Wifi_SSID
+                        (Name_SSID, Wifi_Status)
+                        VALUES
+                        (@Name_SSID, @Wifi_Status)";
 
+                try
+                { 
+                    foreach (var network in networks)
+                    {
+                        ExecuteNonQuery(query, command =>
+                        {
+                            command.Parameters.AddWithValue("@Name_SSID", network.Name_SSID);
+                            command.Parameters.AddWithValue("@Wifi_Status", network.Wifi_Status);
+                        });
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message.ToString(), "Сканирование сетей");
+                }
+
+                MessageBox.Show("Данные успешно сохранены!", "Сканирование сетей");
+            }
+            else
+            {
+                MessageBox.Show("Нет данных для сохранения!", "Сканирование сетей");
+            }
         }
+
 
         private void btnExit_Click(object sender, RoutedEventArgs e)
         {

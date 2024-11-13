@@ -44,8 +44,7 @@ public class WifiScanner
                 var WifiSSID_Model = new WifiSSID_Model
                 {
                     Name_SSID = Encoding.ASCII.GetString(network.dot11Ssid.SSID, 0, (int)network.dot11Ssid.SSIDLength),
-                    Wifi_Status = (int)network.wlanSignalQuality,
-                    Date_Add = DateTime.Now
+                    Wifi_Status = (int)network.wlanSignalQuality
                 };
                 WifiSSID_Models.Add(WifiSSID_Model);
             }

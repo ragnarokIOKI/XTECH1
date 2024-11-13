@@ -10,6 +10,5 @@ namespace XTECHLavrinova1
     {
         public string Name_SSID { get; set; }
         public int Wifi_Status { get; set; }
-        public DateTime Date_Add { get; set; }
     }
 }

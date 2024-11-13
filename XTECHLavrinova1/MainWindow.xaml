@@ -18,7 +18,12 @@
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
 
-        <DataGrid x:Name="dtWiFi" Grid.Row="1" Grid.ColumnSpan="3" Margin="10" AutoGenerateColumns="True" CanUserAddRows="False"/>
+        <DataGrid x:Name="dtWiFi" Grid.Row="1" Grid.ColumnSpan="3" Margin="10" AutoGenerateColumns="False" CanUserAddRows="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Имя сети" Binding="{Binding Name_SSID}" Width="*"/>
+                <DataGridTextColumn Header="Уровень сигнала сети" Binding="{Binding Wifi_Status}" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
 
         <Label Margin="10" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" IsEnabled="False" >Сеть с наилучшим сигналом:</Label>
         <Label x:Name="lbBestSSID" Margin="10" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" IsEnabled="False" Grid.Column="1">пример</Label>
