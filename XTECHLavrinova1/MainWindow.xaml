@@ -1,0 +1,43 @@
+﻿<Window x:Class="XTECHLavrinova1.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:XTECHLavrinova1"
+        Title="Сканирование сетей" Height="450" Width="800" WindowStartupLocation="CenterScreen">
+    <Window.DataContext>
+        <local:MainViewModel />
+    </Window.DataContext>
+    <Window.CommandBindings>
+        <CommandBinding Command="{x:Static local:MainViewModel.ScanCommand}"  Executed="ScanCommand_Executed" />
+        <CommandBinding Command="{x:Static local:MainViewModel.SaveCommand}" Executed="SaveCommand_Executed" />
+        <CommandBinding Command="{x:Static local:MainViewModel.ExitCommand}" Executed="ExitCommand_Executed" />
+    </Window.CommandBindings>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition ></RowDefinition>
+            <RowDefinition Height="4*"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <DataGrid x:Name="dtWiFi" Grid.Row="1" Grid.ColumnSpan="3" Margin="10" AutoGenerateColumns="False" CanUserAddRows="False"
+                  ItemsSource="{Binding Networks}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Имя сети" Binding="{Binding Name_SSID}" Width="*"/>
+                <DataGridTextColumn Header="Уровень сигнала сети" Binding="{Binding Wifi_Status}" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <Label Margin="10" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" IsEnabled="False" >Сеть с наилучшим сигналом:</Label>
+        <Label x:Name="lbBestSSID" Margin="10" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" IsEnabled="False" Grid.Column="1"
+               Content="{Binding BestSSID}"/>
+
+        <Button x:Name="btnScan" Command="{x:Static local:MainViewModel.ScanCommand}" Grid.Column="2" Grid.Row="2" Margin="10">Сканировать</Button>
+        <Button x:Name="btnSave" Command="{x:Static local:MainViewModel.SaveCommand}" Grid.Column="1" Grid.Row="2" Margin="10">Сохранить</Button>
+        <Button x:Name="btnExit" Command="{x:Static local:MainViewModel.ExitCommand}" Grid.Row="2" Margin="10">Выйти</Button>
+
+    </Grid>
+</Window>
